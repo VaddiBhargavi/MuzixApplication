@@ -18,6 +18,8 @@ public class MuzixController {
     public MuzixController(MuzixService muzixService) {
         this.muzixService = muzixService;
     }
+
+    //To create the muzix details
     @PostMapping("muzix")
     public ResponseEntity<?> saveMuzix(@RequestBody Muzix muzix)
     {
@@ -33,11 +35,13 @@ public class MuzixController {
         }
         return responseEntity;
     }
+    //To get AllMuzixUsers details
     @GetMapping("muzix")
     public ResponseEntity<?> getAllMuzixUsers()
     {
         return new ResponseEntity<List<Muzix>>(muzixService.getAllMuzixUsers(),HttpStatus.OK);
     }
+    //Update operation
     @PutMapping("update/{id}")
     public  ResponseEntity<?> updateMuzix(@RequestBody Muzix muzix, @PathVariable int id)
     {
@@ -53,6 +57,7 @@ public class MuzixController {
         }
         return responseEntity;
     }
+    //Delete operation
     @DeleteMapping("delete/{id}")
     public  ResponseEntity<?> deleteMuzix(@PathVariable int id)
     {
@@ -67,6 +72,13 @@ public class MuzixController {
             responseEntity= new ResponseEntity<String>(e.getMessage(),HttpStatus.CONFLICT);
         }
         return responseEntity;
+    }
+    //Add an endpoint to search trackByName. Understand @Query and parameter passing to
+    //@Query
+    @GetMapping("/names/{name}")
+    public ResponseEntity<List<Muzix>> getByname(@PathVariable String name) {
+        List<Muzix> musix = muzixService.getByName(name);
+        return new ResponseEntity<List<Muzix>>(musix, HttpStatus.OK);
     }
 
 }

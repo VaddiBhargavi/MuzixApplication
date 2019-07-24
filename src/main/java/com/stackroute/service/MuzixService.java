@@ -11,4 +11,5 @@ public interface MuzixService {
     public Optional<Muzix> getMuzixById(int id);
     public boolean updateMuzix(Muzix muzix, int id);
     public List<Muzix> getAllMuzixUsers();
+    public List<Muzix> getByName(String name);
 }

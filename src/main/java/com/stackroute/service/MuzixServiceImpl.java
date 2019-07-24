@@ -49,5 +49,11 @@ public class MuzixServiceImpl implements MuzixService {
     public List<Muzix> getAllMuzixUsers() {
         return muzixRepository.findAll();
     }
+    public List<Muzix> getByName(String name) {
+        List<Muzix> user_name = muzixRepository.findTitleByName(name);
+
+        return user_name;
+    }
+
 
 }
