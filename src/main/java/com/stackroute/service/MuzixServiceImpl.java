@@ -2,6 +2,8 @@ package com.stackroute.service;
 
 import com.stackroute.Repository.MuzixRepository;
 import com.stackroute.domain.Muzix;
+import com.stackroute.exceptions.TrackAlreadyExistsException;
+import com.stackroute.exceptions.TrackNotFoundExeption;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,30 +18,35 @@ public class MuzixServiceImpl implements MuzixService {
     {
         this.muzixRepository= muzixRepository;
     }
-    public boolean saveMuzix(Muzix muzix)
-    {
+    public boolean saveMuzix(Muzix muzix) throws TrackAlreadyExistsException {
+        if (muzixRepository.existsById(muzix.getId())) {
+            throw new TrackAlreadyExistsException("Track already exists with id  : " + muzix.getId());
+        }
         Muzix savedMuzix= muzixRepository.save(muzix);
         return true;
     }
-
     @Override
-    public boolean deleteMuzix( int id) {
-        if (muzixRepository.existsById(id)) {
+    public boolean deleteMuzix(int id) throws TrackNotFoundExeption{
+        if(!muzixRepository.findById(id).isPresent())
+        {
+            throw new TrackNotFoundExeption("Record doesnt exists");
+        }
             muzixRepository.deleteById(id);
             return true;
         }
-        return false;
-    }
-    public Optional<Muzix> getMuzixById(int id)
-    {
+    public Optional<Muzix> getMuzixById(int id) throws TrackNotFoundExeption {
+        Optional<Muzix> user_id = muzixRepository.findById(id);
+        if (!user_id.isPresent())
+            throw new TrackNotFoundExeption("Record not found");
         return muzixRepository.findById(id);
     }
 
     @Override
-    public boolean updateMuzix(Muzix muzix, int id) {
+    public boolean updateMuzix(Muzix muzix, int id) throws TrackNotFoundExeption{
         Optional<Muzix> userOptional = muzixRepository.findById(id);
-            if (!userOptional.isPresent())
-                return false;
+            if (!userOptional.isPresent()) {
+                throw new TrackNotFoundExeption("Record doesn't exists");
+            }
             muzix.setId(id);
             muzixRepository.save(muzix);
             return true;
