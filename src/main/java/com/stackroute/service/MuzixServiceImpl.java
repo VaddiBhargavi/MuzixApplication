@@ -19,9 +19,9 @@ public class MuzixServiceImpl implements MuzixService {
         this.muzixRepository= muzixRepository;
     }
     public boolean saveMuzix(Muzix muzix) throws TrackAlreadyExistsException {
-        if (muzixRepository.existsById(muzix.getId())) {
-            throw new TrackAlreadyExistsException("Track already exists with id  : " + muzix.getId());
-        }
+//        if (muzixRepository.existsById(muzix.getId())) {
+//            throw new TrackAlreadyExistsException("Track already exists with id  : " + muzix.getId());
+//        }
         Muzix savedMuzix= muzixRepository.save(muzix);
         return true;
     }

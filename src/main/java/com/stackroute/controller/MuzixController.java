@@ -2,6 +2,8 @@ package com.stackroute.controller;
 
 import com.stackroute.Repository.MuzixRepository;
 import com.stackroute.domain.Muzix;
+import com.stackroute.exceptions.TrackAlreadyExistsException;
+import com.stackroute.exceptions.TrackNotFoundExeption;
 import com.stackroute.service.MuzixService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,7 +23,7 @@ public class MuzixController {
 
     //To create the muzix details
     @PostMapping("muzix")
-    public ResponseEntity<?> saveMuzix(@RequestBody Muzix muzix)
+    public ResponseEntity<?> saveMuzix(@RequestBody Muzix muzix) throws TrackAlreadyExistsException
     {
         ResponseEntity responseEntity;
         try
@@ -43,7 +45,7 @@ public class MuzixController {
     }
     //Update operation
     @PutMapping("update/{id}")
-    public  ResponseEntity<?> updateMuzix(@RequestBody Muzix muzix, @PathVariable int id)
+    public  ResponseEntity<?> updateMuzix(@RequestBody Muzix muzix, @PathVariable int id) throws TrackNotFoundExeption
     {
         ResponseEntity responseEntity;
         try
