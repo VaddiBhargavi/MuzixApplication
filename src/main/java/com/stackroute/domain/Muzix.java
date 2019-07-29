@@ -20,6 +20,7 @@ public class Muzix {
     private String name;
     private int rating;
     private String comments;
+
 }
 
 

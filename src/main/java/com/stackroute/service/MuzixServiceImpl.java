@@ -44,10 +44,10 @@ public class MuzixServiceImpl implements MuzixService, ApplicationListener<Conte
     }
     @Override
     public boolean deleteMuzix(int id) throws TrackNotFoundExeption{
-        if(!muzixRepository.findById(id).isPresent())
-        {
-            throw new TrackNotFoundExeption("Record doesnt exists");
-        }
+//        if(!muzixRepository.findById(id).isPresent())
+//        {
+//            throw new TrackNotFoundExeption("Record doesnt exists");
+//        }
             muzixRepository.deleteById(id);
             return true;
         }
