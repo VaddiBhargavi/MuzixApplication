@@ -35,6 +35,8 @@ public class MuzixServiceImpl implements MuzixService, ApplicationListener<Conte
     {
         this.muzixRepository= muzixRepository;
     }
+    
+    //saveMuzix() saves the track
     public boolean saveMuzix(Muzix muzix) throws TrackAlreadyExistsException {
 //        if (muzixRepository.existsById(muzix.getId())) {
 //            throw new TrackAlreadyExistsException("Track already exists with id  : " + muzix.getId());
@@ -42,6 +44,7 @@ public class MuzixServiceImpl implements MuzixService, ApplicationListener<Conte
         Muzix savedMuzix= muzixRepository.save(muzix);
         return true;
     }
+      //deleteMuzix deletes the track based on id
     @Override
     public boolean deleteMuzix(int id) throws TrackNotFoundExeption{
         if(!muzixRepository.findById(id).isPresent())
@@ -51,12 +54,15 @@ public class MuzixServiceImpl implements MuzixService, ApplicationListener<Conte
             muzixRepository.deleteById(id);
             return true;
         }
+    
+    //GetMuzixById to get the track based on Id
     public Optional<Muzix> getMuzixById(int id) throws TrackNotFoundExeption {
         Optional<Muzix> user_id = muzixRepository.findById(id);
         if (!user_id.isPresent())
             throw new TrackNotFoundExeption("Record not found");
         return muzixRepository.findById(id);
     }
+     //updateMuzix() updates the track based on given id
 
     @Override
     public boolean updateMuzix(Muzix muzix, int id) throws TrackNotFoundExeption{
@@ -68,7 +74,7 @@ public class MuzixServiceImpl implements MuzixService, ApplicationListener<Conte
             muzixRepository.save(muzix);
             return true;
         }
-
+//getAllMuzixUsers to get all the tracks
     @Override
     public List<Muzix> getAllMuzixUsers() {
         return muzixRepository.findAll();
@@ -79,12 +85,13 @@ public class MuzixServiceImpl implements MuzixService, ApplicationListener<Conte
         return user_name;
     }
 
-
+//run() for CommandLineRunner
     @Override
     public void run(String... args) throws Exception {
         System.out.println("command line running before application starts");
 
     }
+    //onApplicationEvent() for ContextRefreshedEvent
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
