@@ -1,84 +1,68 @@
 package com.stackroute.controller;
-
-import com.stackroute.Repository.MuzixRepository;
-import com.stackroute.domain.Muzix;
-import com.stackroute.service.MuzixService;
+import com.stackroute.Muzix.domain.Track;
+import com.stackroute.Muzix.exceptions.TrackAlreadyExistsException;
+import com.stackroute.Muzix.exceptions.TrackNotFoundException;
+import com.stackroute.Muzix.services.Musicservice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
-
 @RestController
-@RequestMapping(value = "api/v1")
-public class MuzixController {
-    MuzixService muzixService;
-    @Autowired
-    public MuzixController(MuzixService muzixService) {
-        this.muzixService = muzixService;
-    }
-
-    //To create the muzix details
-    @PostMapping("muzix")
-    public ResponseEntity<?> saveMuzix(@RequestBody Muzix muzix)
-    {
-        ResponseEntity responseEntity;
-        try
-        {
-            muzixService.saveMuzix(muzix);
-            responseEntity= new ResponseEntity<String>("Successfully created", HttpStatus.CREATED);
-        }
-        catch (Exception e)
-        {
-            responseEntity= new ResponseEntity<String>(e.getMessage(),HttpStatus.CONFLICT);
-        }
-        return responseEntity;
-    }
-    //To get AllMuzixUsers details
-    @GetMapping("muzix")
-    public ResponseEntity<?> getAllMuzixUsers()
-    {
-        return new ResponseEntity<List<Muzix>>(muzixService.getAllMuzixUsers(),HttpStatus.OK);
-    }
-    //Update operation
-    @PutMapping("update/{id}")
-    public  ResponseEntity<?> updateMuzix(@RequestBody Muzix muzix, @PathVariable int id)
-    {
-        ResponseEntity responseEntity;
-        try
-        {
-            muzixService.updateMuzix(muzix,id);
-            responseEntity= new ResponseEntity<String>("Successfully updated", HttpStatus.OK);
-        }
-        catch (Exception e)
-        {
-            responseEntity= new ResponseEntity<String>(e.getMessage(),HttpStatus.CONFLICT);
-        }
-        return responseEntity;
-    }
-    //Delete operation
-    @DeleteMapping("delete/{id}")
-    public  ResponseEntity<?> deleteMuzix(@PathVariable int id)
-    {
-        ResponseEntity responseEntity;
-        try
-        {
-            muzixService.deleteMuzix(id);
-            responseEntity= new ResponseEntity<String>("Successfully deleted", HttpStatus.CREATED);
-        }
-        catch (Exception e)
-        {
-            responseEntity= new ResponseEntity<String>(e.getMessage(),HttpStatus.CONFLICT);
-        }
-        return responseEntity;
-    }
-    //Add an endpoint to search trackByName. Understand @Query and parameter passing to
-    //@Query
-    @GetMapping("/names/{name}")
-    public ResponseEntity<List<Muzix>> getByname(@PathVariable String name) {
-        List<Muzix> musix = muzixService.getByName(name);
-        return new ResponseEntity<List<Muzix>>(musix, HttpStatus.OK);
-    }
-
+@RequestMapping(value="api/v1")
+public class TrackController {
+Musicservice musicservice;
+@Autowired
+public TrackController(Musicservice musicservice) {
+this.musicservice = musicservice;
+}
+//Post mapping to save the track
+@PostMapping("track")
+public ResponseEntity<?> saveTrack(@RequestBody Muzix muzix){
+ResponseEntity responseEntity;
+try{
+musicservice.saveTrack(muzix);
+responseEntity=new ResponseEntity<String>("successfully Created", HttpStatus.CREATED);
+}
+catch (TrackAlreadyExistsException ex){
+responseEntity = new ResponseEntity<String>(ex.getMessage(),HttpStatus.CONFLICT);
+}
+return responseEntity;
+}
+//Get mapping to get all the tracks
+@GetMapping("track")
+public ResponseEntity<?> getAllTracks() {
+return new ResponseEntity<List<Track>>(musicservice.getAllTracks(), HttpStatus.OK);
+  }
+//Delete mapping to delete the track
+@DeleteMapping("delete/{trackId}")
+public ResponseEntity<?> deleteTrack(@PathVariable int id){
+ResponseEntity responseEntity;
+try{
+musicservice.deleteTrack(id);
+responseEntity=new ResponseEntity<String>("successfully deleted", HttpStatus.OK);
+}
+catch (Exception ex){
+responseEntity = new ResponseEntity<String>(ex.getMessage(),HttpStatus.CONFLICT);
+}
+return responseEntity;
+}
+//Put Mapping to update the existing track
+@PutMapping("update/{id}")
+public ResponseEntity<?> updateTrack(@RequestBody Muzix muzix,@PathVariable int id){
+ResponseEntity responseEntity;
+try{
+musicservice.UpdateTrack(muzix,id);
+responseEntity =new ResponseEntity<String>("successfully updated", HttpStatus.OK);
+}
+catch (TrackNotFoundException ex){
+responseEntity = new ResponseEntity<String>(ex.getMessage(),HttpStatus.CONFLICT);
+}
+return responseEntity;
+}
+//Get Mapping to get the Track by name
+@GetMapping("names/{name}")
+public ResponseEntity<List<Muzix>> getByName(@PathVariable String name) {
+return new ResponseEntity<List<Muzix>>(musicservice.getByName(name), HttpStatus.OK);
+}
 }
