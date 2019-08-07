@@ -35,6 +35,8 @@ public class MuzixServiceImpl implements MuzixService, ApplicationListener<Conte
     {
         this.muzixRepository= muzixRepository;
     }
+    
+    //saveMuzix() saves the track
     public boolean saveMuzix(Muzix muzix) throws TrackAlreadyExistsException {
 //        if (muzixRepository.existsById(muzix.getId())) {
 //            throw new TrackAlreadyExistsException("Track already exists with id  : " + muzix.getId());
@@ -42,6 +44,7 @@ public class MuzixServiceImpl implements MuzixService, ApplicationListener<Conte
         Muzix savedMuzix= muzixRepository.save(muzix);
         return true;
     }
+     //deleteMuzix deletes the track based on id
     @Override
     public boolean deleteMuzix(int id) throws TrackNotFoundExeption{
         if(!muzixRepository.findById(id).isPresent())
@@ -58,6 +61,7 @@ public class MuzixServiceImpl implements MuzixService, ApplicationListener<Conte
         return muzixRepository.findById(id);
     }
 
+    //updateMuzix() updates the track based on given id
     @Override
     public boolean updateMuzix(Muzix muzix, int id) throws TrackNotFoundExeption{
         Optional<Muzix> userOptional = muzixRepository.findById(id);
@@ -86,6 +90,7 @@ public class MuzixServiceImpl implements MuzixService, ApplicationListener<Conte
 
     }
 
+    //
     @Override
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
         muzixRepository.save(new Muzix(1, name1, rating1, comments1));
