@@ -13,17 +13,17 @@ public class Muzix {
     private String name;
     private int rating;
     private String comments;
-
+    //Default constructor
     public Muzix() {
     }
-
+    //parameterised constructor
     public Muzix(int id, String name, int rating, String comments) {
         this.id = id;
         this.name = name;
         this.rating = rating;
         this.comments = comments;
     }
-
+    //setters and getters
     public int getId() {
         return id;
     }

@@ -1,6 +1,5 @@
 package com.stackroute.controller;
 
-import com.stackroute.Repository.MuzixRepository;
 import com.stackroute.domain.Muzix;
 import com.stackroute.service.MuzixService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +18,7 @@ public class MuzixController {
         this.muzixService = muzixService;
     }
     @PostMapping("muzix")
+    //saveMuzix() saves the track also handled exceptions if we save already exists track
     public ResponseEntity<?> saveMuzix(@RequestBody Muzix muzix)
     {
         ResponseEntity responseEntity;
@@ -33,11 +33,13 @@ public class MuzixController {
         }
         return responseEntity;
     }
+    //getAllMuzixUsers() gives all tracks
     @GetMapping("muzix")
     public ResponseEntity<?> getAllMuzixUsers()
     {
         return new ResponseEntity<List<Muzix>>(muzixService.getAllMuzixUsers(),HttpStatus.OK);
     }
+    //updateMuzix() updates the track based on given id
     @PutMapping("update/{id}")
     public  ResponseEntity<?> updateMuzix(@RequestBody Muzix muzix, @PathVariable int id)
     {
@@ -53,6 +55,7 @@ public class MuzixController {
         }
         return responseEntity;
     }
+    //deleteMuzix deletes the track based on id and also handled exceptions if we delete the deleted track
     @DeleteMapping("delete/{id}")
     public  ResponseEntity<?> deleteMuzix(@PathVariable int id)
     {
