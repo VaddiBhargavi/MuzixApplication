@@ -14,6 +14,8 @@ import javax.persistence.Id;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+
+//Use of lombok is to automatically builds all the setters, getters, constructors
 public class Muzix {
     @Id
     private int id;
