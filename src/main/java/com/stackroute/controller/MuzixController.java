@@ -71,5 +71,13 @@ public class MuzixController {
         }
         return responseEntity;
     }
+    //Add an endpoint to search trackByName. Understand @Query and parameter passing to
+    //@Query
+    @GetMapping("/names/{name}")
+    public ResponseEntity<List<Muzix>> getByname(@PathVariable String name) {
+        List<Muzix> musix = muzixService.getByName(name);
+        return new ResponseEntity<List<Muzix>>(musix, HttpStatus.OK);
+    }
+
 
 }
