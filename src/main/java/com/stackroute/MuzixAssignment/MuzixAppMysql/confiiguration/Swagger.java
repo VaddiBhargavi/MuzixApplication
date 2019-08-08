@@ -9,6 +9,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @Configuration
 @EnableSwagger2
+//Swagger helps to document for our API's
 public class Swagger {
 
     @Bean
