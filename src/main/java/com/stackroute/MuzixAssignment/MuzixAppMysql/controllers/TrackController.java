@@ -26,6 +26,7 @@ public class TrackController {
         this.trackService = trackService;
     }
 
+    //saveMuzix() saves the track also handled exceptions if we save already exists track
         @PostMapping("track")
     public ResponseEntity<?> saveTrack(@RequestBody Track track) {
         ResponseEntity responseEntity;
@@ -70,6 +71,7 @@ public class TrackController {
         return responseEntity;
     }
 
+    //updateMuzix() updates the track based on given id
      @PutMapping("track/{id}")
     public ResponseEntity<?> updateTrack(@RequestBody Track track, @PathVariable int id) {
          ResponseEntity responseEntity;
