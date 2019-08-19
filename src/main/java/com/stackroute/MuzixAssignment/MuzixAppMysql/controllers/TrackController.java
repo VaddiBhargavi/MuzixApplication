@@ -6,6 +6,8 @@ import com.stackroute.MuzixAssignment.MuzixAppMysql.domain.Track;
 import com.stackroute.MuzixAssignment.MuzixAppMysql.exceptions.TrackAlreadyExistsException;
 import com.stackroute.MuzixAssignment.MuzixAppMysql.exceptions.TrackNotFoundException;
 import com.stackroute.MuzixAssignment.MuzixAppMysql.service.TrackService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,11 +16,12 @@ import org.springframework.web.client.RestTemplate;
 import java.util.ArrayList;
 import java.util.List;
 
+@CrossOrigin(origins = "*")
 @RestController
 //@RequestMapping(value = "api/v1")
 @ControllerAdvice(basePackages = "com.stackroute.muzixapp")
 public class TrackController {
-
+    private final Logger logger = (Logger) LoggerFactory.getLogger(this.getClass());
     //Controller has a dependency on Service class and created a reference
     TrackService trackService;
     
@@ -64,7 +67,6 @@ public class TrackController {
     @GetMapping("track")
     public ResponseEntity<?> getAllTracks() {
         ResponseEntity responseEntity;
-
         try {
             responseEntity = new ResponseEntity<List<Track>>(trackService.getAllTracks(), HttpStatus.OK);
         }
@@ -72,7 +74,12 @@ public class TrackController {
 
             responseEntity = new ResponseEntity<String>(exception.getMessage(), HttpStatus.CONFLICT);
         }
+        logger.debug("Updated Testing Spring Boot Devtools");
 
+        logger.debug("This is a debug message");
+        logger.info("This is an info message");
+        logger.warn("This is a warn message");
+        logger.error("This is an error message");
         return responseEntity;
     }
 
